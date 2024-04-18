@@ -26,8 +26,8 @@ class UserViewSet(viewsets.ModelViewSet):
     
     @action(detail=True,methods=['get'])
     def blogs(self,request,pk=None):
-        print(request.methods)
-        if request.methods == "GET":
+        
+        try:
             user=User.objects.get(pk=pk)
         
             blogs=Blog.objects.filter(author=user)
@@ -37,7 +37,9 @@ class UserViewSet(viewsets.ModelViewSet):
                 context={'request':request}
             )
             return Response(blog_serializer.data)
-        
+        except Exception as e:
+            print(e)
+            return Response([])
     @action(detail=False,methods=['get'])
     def logout(self,request):
         if request.COOKIES['sessionid']:
@@ -72,10 +74,6 @@ class BlogViewSet(viewsets.ModelViewSet):
     serializer_class=BlogSerializer
     pagination_class = BlogPagination
     
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT) 
     @action(detail=True,methods=['post','get'])
     def comments(self,request,pk=None):
         if request.method=="GET":
