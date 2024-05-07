@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import User,Blog,likes,comments
+from api.models import User,Blog,likes,comments,userV2
 
 from django.db.models import Count
 class UserSerializer(serializers.ModelSerializer):
@@ -39,4 +39,10 @@ class likerSerializer(serializers.ModelSerializer):
         model= likes
         fields="__all__"
 
+#version 2
+class userv2Serializer(serializers.ModelSerializer):
+    class Meta:
+        model= userV2
+        fields="__all__"
+        extra_kwags={'blogger':{'required':True}}
 

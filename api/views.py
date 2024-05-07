@@ -3,12 +3,10 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
 import datetime
 from rest_framework import viewsets,status
-from api.models import User,Blog,likes,comments
+from api.models import User,Blog,likes,comments,userV2
 from rest_framework.response import Response
 from rest_framework.decorators import action
-
-
-from api.serializers import UserSerializer,BlogSerializer,likerSerializer,commentsSerializer
+from api.serializers import UserSerializer,BlogSerializer,likerSerializer,commentsSerializer,userv2Serializer
 
 class CustomPagination(PageNumberPagination):
     page_size = 5 
@@ -145,6 +143,10 @@ class BlogViewSet(viewsets.ModelViewSet):
                 print(e)
                 return Response({'error': str(e)}, status=400)
     
+# version 2
 
-        
-        
+class userv2ViewSet(viewsets.ModelViewSet):
+    queryset=userV2.objects.all()
+    serializer_class=userv2Serializer
+
+    
